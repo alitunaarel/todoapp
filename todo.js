@@ -9,7 +9,56 @@ const clearbutton = document.querySelector("clear-todos");
 eventlisteners();
 
 function eventlisteners() {
-    form.addEventListener("submit", addTodo)
+    form.addEventListener("submit", addTodo);
+    document.addEventListener("DOMContentLoaded", loadAllTodosToUI);
+    secondCardBody.addEventListener("click",deleteTodo);
+    filter.addEventListener("keyup", filterTodos);
+}
+
+function filterTodos(e){
+    const filterValues = e.target.value.toLowercase();
+    const listItems = document.querySelectorAll(".list-group-item");
+
+    listItems.forEach(function(listItem){
+        const text = listItem.textContent.toLowerCase();
+        if (text.indexOf(filterValues)=== -1){
+            listItem.setAttribute("style","display : none !important");
+
+        }
+        else{
+            listItem.setAttribute("style", "display : block");
+        }
+    });
+}
+
+function deleteTodo(e){
+ if (e.target.className === "fa fa-remove") {
+     e.target.parentElement.parentElement.remove();
+     deleteTodoFromStorage(e.target.parentElement.parentElement.textContent);
+
+     showAlert("success", "Todo is deleted successfully...")
+ }
+}
+
+function deleteTodoFromStorage(deletetodo) {
+    let todos = getTodosFromStorage();
+
+    todos.forEach(function(todo, index){
+        if (todo === deletetodo){
+            todos.splice(index,1);
+        }
+    });
+
+    localStorage.setItem("todos",JSON.stringify(todos));
+}
+
+function loadAllTodosToUI(){
+    let todos =getTodosFromStorage();
+
+    todos.forEach(todo => {
+        addTodoUI(todo);
+        
+    });
 
 }
 
@@ -25,12 +74,29 @@ function addTodo(e) {
     }
     else{
         addTodoUI(newTodo);
+        addTodoStorage(newTodo);
         showAlert("success", "todo is added successfully...")
     }
 
     
 
     e.preventDefault();
+}
+function getTodosFromStorage(){
+    let todos;
+    if(localStorage.getItem("todos")=== null){
+        todos = [];
+    }
+    else{
+        todos = JSON.parse(localStorage.getItem("todos"));
+    }
+    return todos;
+}
+
+function addTodoStorage(newTodo){
+    let todos = getTodosFromStorage();
+    todos.push(newTodo);
+    localStorage.setItem("todos",JSON.stringify(todos));
 }
 
 
