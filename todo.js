@@ -16,7 +16,7 @@ function eventlisteners() {
     clearButton.addEventListener("click",clearAllTodos);
 }
 function clearAllTodos(e){
-    if(confirm("Are you sure to erase all ToDo ?"))
+    if(confirm("Are you sure to erase all ToDo?"))
     {
         while(todoList.firstElementChild != null){
             todoList.removeChild(todoList.firstElementChild);
