@@ -4,7 +4,7 @@ const todoList = document.querySelector(".list-group");
 const firstCardBody = document.querySelectorAll(".card-body")[0];
 const secondCardBody = document.querySelectorAll(".card-body")[1];
 const filter = document.querySelector("#filter");
-const clearButton = document.querySelector("clear-todos");
+const clearButton = document.querySelector("#clear-todos");
 
 eventlisteners();
 
